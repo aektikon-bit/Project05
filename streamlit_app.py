@@ -4,38 +4,51 @@ import random
 # ตั้งค่า page
 st.set_page_config(page_title="🧠 Quiz Game", page_icon="📝", layout="centered")
 
-# CSS ให้สวยขึ้น
+# CSS สำหรับสวยขึ้น
 st.markdown("""
 <style>
+/* Header */
 .app-title {
     text-align: center;
     color: #FF5733;
     font-weight: bold;
     font-size: 40px;
+    margin-bottom: 10px;
 }
-.big-emoji {
-    font-size: 120px;
-    text-align: center;
-}
+
+/* กล่องคำถาม */
 .question-box {
     background-color: #F0F8FF;
     padding: 20px;
     border-radius: 15px;
     margin-bottom: 20px;
+    box-shadow: 2px 2px 10px #aaa;
 }
+
+/* ปุ่มตัวเลือก */
 .option-button button {
     background-color: #1E90FF;
     color: white;
     font-size: 18px;
-    padding: 10px 20px;
+    padding: 12px 20px;
     margin: 5px;
     border-radius: 10px;
+    width: 100%;
 }
+
+/* Emoji ขนาดใหญ่ */
+.big-emoji {
+    font-size: 120px;
+    text-align: center;
+}
+
+/* แสดงรอบและคะแนน */
 .info-box {
     text-align: center;
     font-size: 20px;
     color: #333;
     font-weight: bold;
+    margin-top: 15px;
 }
 </style>
 """, unsafe_allow_html=True)
@@ -52,7 +65,7 @@ quiz = [
     {"question": "สีของท้องฟ้าวันแจ่มใส?", "options": ["แดง", "ฟ้า", "เขียว", "ดำ"], "answer": "ฟ้า"},
 ]
 
-# สุ่มคำถาม
+# session state
 if 'current_question' not in st.session_state:
     st.session_state.current_question = random.choice(quiz)
 if 'รอบ' not in st.session_state:
@@ -65,16 +78,16 @@ question = st.session_state.current_question
 # แสดงคำถาม
 st.markdown(f"<div class='question-box'><h3>{question['question']}</h3></div>", unsafe_allow_html=True)
 
-# แสดงตัวเลือก
+# แสดงตัวเลือกเป็นปุ่ม
 for option in question['options']:
     if st.button(option):
         if option == question['answer']:
             st.markdown("<div class='big-emoji'>🎉</div>", unsafe_allow_html=True)
-            st.success(f"ถูกต้อง! ✅")
+            st.success("ถูกต้อง! ✅")
             st.session_state.คะแนน += 1
         else:
             st.markdown("<div class='big-emoji'>❌</div>", unsafe_allow_html=True)
-            st.error(f"ผิด! คำตอบที่ถูกคือ: {question['answer']}")
+            st.error(f"ผิด! คำตอบที่ถูกคือ: {question['answer']} 😅")
         # สุ่มคำถามใหม่และเพิ่มรอบ
         st.session_state.current_question = random.choice(quiz)
         st.session_state.รอบ += 1
